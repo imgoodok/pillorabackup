@@ -1,0 +1,84 @@
+diff --git a/app/src/main/java/com/pillora/pillora/navigation/AppNavigation.kt b/app/src/main/java/com/pillora/pillora/navigation/AppNavigation.kt
+index fccce80..41d8f8d 100644
+--- a/app/src/main/java/com/pillora/pillora/navigation/AppNavigation.kt
++++ b/app/src/main/java/com/pillora/pillora/navigation/AppNavigation.kt
+@@ -20,6 +20,7 @@ import com.pillora.pillora.screens.MedicineFormScreen
+ import com.pillora.pillora.screens.MedicineListScreen
+ import com.pillora.pillora.screens.SettingsScreen
+ import com.pillora.pillora.screens.TermsScreen
++import com.pillora.pillora.screens.ProfileScreen
+ import com.pillora.pillora.repository.AuthRepository
+ import com.pillora.pillora.screens.ConsultationFormScreen
+ import com.pillora.pillora.screens.ConsultationListScreen
+@@ -186,6 +187,11 @@ fun AppNavigation(
+                 val actualRecipeId = if (recipeId?.trim()?.isNotEmpty() == true) recipeId else null
+                 RecipeFormScreen(navController = navController, recipeId = actualRecipeId)
+             }
++
++            // Profile screen (Nova rota adicionada)
++            composable(Screen.Profile.route) {
++                ProfileScreen(navController = navController)
++            }
+         }
+ 
+         // *** CORREÇÃO: Navegar para a tela de edição de consulta OU vacina se necessário ***
+diff --git a/app/src/main/java/com/pillora/pillora/navigation/Screen.kt b/app/src/main/java/com/pillora/pillora/navigation/Screen.kt
+index e16cc1a..d41a5b1 100644
+--- a/app/src/main/java/com/pillora/pillora/navigation/Screen.kt
++++ b/app/src/main/java/com/pillora/pillora/navigation/Screen.kt
+@@ -10,7 +10,8 @@ enum class Screen(val route: String) {
+     ConsultationList("consultation_list"),
+     ConsultationForm("consultation_form"), // Rota base para o formulário
+     VaccineList("vaccine_list"), // Nova rota para lista de vacinas
+-    VaccineForm("vaccine_form"); // Nova rota para formulário de vacinas
++    VaccineForm("vaccine_form"), // Nova rota para formulário de vacinas
++    Profile("profile");
+ }
+ 
+ /* // Comentado pois não está sendo usado
+diff --git a/app/src/main/java/com/pillora/pillora/repository/AuthRepository.kt b/app/src/main/java/com/pillora/pillora/repository/AuthRepository.kt
+index 3a4fd75..f1b1093 100644
+--- a/app/src/main/java/com/pillora/pillora/repository/AuthRepository.kt
++++ b/app/src/main/java/com/pillora/pillora/repository/AuthRepository.kt
+@@ -112,4 +112,41 @@ object AuthRepository {
+     fun isUserAuthenticated(): Boolean {
+         return auth.currentUser != null
+     }
++
++    /**
++     * Retorna o usuário logado atualmente.
++     */
++    fun getCurrentUser() = auth.currentUser
++
++    /**
++     * Atualiza o email do usuário logado.
++     * @param newEmail Novo email
++     * @param onSuccess Callback de sucesso
++     * @param onError Callback de erro
++     */
++    fun updateEmail(
++        newEmail: String,
++        onSuccess: () -> Unit,
++        onError: (Exception) -> Unit
++    ) {
++        auth.currentUser?.updateEmail(newEmail)
++            ?.addOnSuccessListener { onSuccess() }
++            ?.addOnFailureListener { onError(it) }
++    }
++
++    /**
++     * Atualiza a senha do usuário logado.
++     * @param newPassword Nova senha
++     * @param onSuccess Callback de sucesso
++     * @param onError Callback de erro
++     */
++    fun updatePassword(
++        newPassword: String,
++        onSuccess: () -> Unit,
++        onError: (Exception) -> Unit
++    ) {
++        auth.currentUser?.updatePassword(newPassword)
++            ?.addOnSuccessListener { onSuccess() }
++            ?.addOnFailureListener { onError(it) }
++    }
+ }

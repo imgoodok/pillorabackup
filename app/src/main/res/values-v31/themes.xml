@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.Pillora.AppStarting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background_color</item>
+        <!-- Alterado para usar drawable/app_logo como última tentativa -->
+        <item name="windowSplashScreenAnimatedIcon">@drawable/app_logo</item>
+        <item name="postSplashScreenTheme">@style/Theme.Pillora</item>
+    </style>
+</resources>
