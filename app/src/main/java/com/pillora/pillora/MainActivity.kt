@@ -180,7 +180,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { padding ->
                         Box(modifier = Modifier.padding(padding)) {
-                            AppNavigation() // ✅ Navegação segura
+                            AppNavigation(navController = navController) // ✅ Navegação segura
                         }
                     }
                 }

@@ -38,6 +38,7 @@ const val RECIPE_FORM_ROUTE = "recipe_form_screen"
 
 @Composable
 fun AppNavigation(
+    navController: NavController,
     // Parâmetros para navegação direta de consulta
     openConsultationEdit: Boolean = false,
     consultationId: String? = null,
@@ -45,7 +46,7 @@ fun AppNavigation(
     openVaccineEdit: Boolean = false,
     vaccineId: String? = null
 ) {
-    val navController = rememberNavController()
+    // val navController = rememberNavController() // REMOVIDO: Recebido como parâmetro
     val context = LocalContext.current
     val prefs = remember {
         context.getSharedPreferences("pillora_prefs", Context.MODE_PRIVATE)
