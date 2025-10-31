@@ -180,7 +180,7 @@ class MainActivity : ComponentActivity() {
                         }
                     ) { padding ->
                         Box(modifier = Modifier.padding(padding)) {
-                            AppNavigation() // ✅ Navegação segura
+                            AppNavigation(navController = navController) // ✅ Navegação segura
                         }
                     }
                 }
@@ -293,7 +293,7 @@ fun DrawerContent(
             navController.navigate(Screen.Settings.route)
         }
 
-                // 🚪 Botão SAIR
+        // 🚪 Botão SAIR
         DrawerItem(icon = Icons.Default.ExitToApp, label = "Sair") {
             scope.launch {
                 drawerState.close()
